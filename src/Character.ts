@@ -1,47 +1,109 @@
-// import Fighter from './Fighter';
-// import Archetype from './Archetypes';
-// import Energy from './Energy';
-// import Race from './Races';
-// import getRandomInt from './utils';
+import Fighter from './Fighter';
+import Archetype, { Mage } from './Archetypes';
+import Energy from './Energy';
+import Race, { Elf } from './Races';
+import getRandomInt from './utils';
 
-// abstract class Character {
-//   private _race: string;
-//   private _archetype: Archetype;
-//   private _maxLifePoints: number;
-//   private _lifePoints: number;
-//   private _strength: number;
-//   private _defense: number;
-//   private _dexterity: number;
-//   private _energy: Energy;
-//   private _name: name;
+class Character implements Fighter {
+  private _race: Race;
+  private _archetype: Archetype;
+  private _maxLifePoints: number;
+  private _lifePoints: number;
+  private _strength: number;
+  private _defense: number;
+  private _dexterity: number;
+  private _energy: Energy;
+  private _name: string;
 
-//   constructor(
-//     name: string,
-//     race: Race,
-//     archetype: Archetype,
-//   ) {
-//     this._name = name;
-//     this._dexterity = getRandomInt(1, 10);
-//     this._race = 
-//   }
+  constructor(
+    name: string,
+    race?: Race,
+    archetype?: Archetype,
+  ) {
+    this._name = name;
+    this._dexterity = getRandomInt(1, 10);
+    this._race = race || new Elf(name, this._dexterity);
+    this._archetype = archetype || new Mage(name);
+    this._maxLifePoints = this._race.maxLifePoints / 2;
+    this._lifePoints = this._maxLifePoints;
+    this._strength = getRandomInt(1, 10);
+    this._defense = getRandomInt(1, 10);
+    this._energy = {
+      type_: this._archetype.energyType,
+      amount: getRandomInt(1, 10),
+    };
+  }
 
-//   get name(): string {
-//     return this._name;
-//   }
+  get race(): Race {
+    return this._race;
+  }
 
-//   get special(): number {
-//     return this._special;
-//   }
+  get archetype(): Archetype {
+    return this._archetype;
+  }
 
-//   get cost(): number {
-//     return this._cost;
-//   }
+  get lifePoints(): number {
+    return this._lifePoints;
+  }
 
-//   static createdArchetypeInstances(): number {
-//     throw new Error('Not implemented');
-//   }
+  get strength(): number {
+    return this._strength;
+  }
 
-//   abstract get energyType(): EnergyType;
-// }
+  get defense(): number {
+    return this._defense;
+  }
 
-// export default Character;
+  get dexterity(): number {
+    return this._dexterity;
+  }
+
+  get energy(): Energy {
+    return {
+      type_: this._energy.type_,
+      amount: this._energy.amount,
+    };
+  }
+
+  public receiveDamage(attackPoints: number): number {
+    const damage = attackPoints - this._defense;
+    if (damage <= 0) {
+      return this._lifePoints;
+    }
+
+    if (this._lifePoints - damage < 0) {
+      this._lifePoints = -1;
+    } else {
+      this._lifePoints -= damage;
+    }
+
+    return this._lifePoints;
+  }
+
+  attack(enemy: Fighter): void {
+    enemy.receiveDamage(this._strength);
+  }
+
+  levelUp(): void {
+    const getRandomNumber = getRandomInt(1, 10);
+    if (this._maxLifePoints + getRandomNumber > this._race.maxLifePoints) {
+      this._maxLifePoints = this._race.maxLifePoints;
+    } else {
+      this._maxLifePoints += getRandomNumber;
+    }
+
+    this._strength += getRandomInt(1, 10);
+    this._dexterity += getRandomInt(1, 10);
+    this._defense += getRandomInt(1, 10);
+
+    this._energy.amount = 10;
+
+    this._lifePoints = this._maxLifePoints;
+  }
+
+  special(enemy: Fighter): void {
+    enemy.receiveDamage(this._strength * 1.5);
+  }
+}
+
+export default Character;
