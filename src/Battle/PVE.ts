@@ -1,24 +1,26 @@
-// import Fighter, { SimpleFighter } from '../Fighter';
-// import Battle from './Battle';
+import { SimpleFighter } from '../Fighter';
+import Battle from './Battle';
 
-// class PVE extends Battle {
-//   private _player: Fighter;
-//   private _environment: SimpleFighter[] | Fighter[];
+class PVE extends Battle {
+  private _player: SimpleFighter;
+  private _environment: SimpleFighter[];
 
-//   constructor(player: Fighter, environment: SimpleFighter[] | Fighter[]) {
-//     super(player);
-//     this._player = player;
-//     this._environment = environment;
-//   }
+  constructor(player: SimpleFighter, environment: SimpleFighter[]) {
+    super(player);
+    this._player = player;
+    this._environment = environment;
+  }
 
-//   public fight(): number {
-//     while (this._player.lifePoints > 0 && this._environment.lifePoints > 0) {
-//       this._player.attack(this._playerTwo);
-//       this._playerTwo.attack(this._playerOne);    
-//     }
+  public fight(): number {
+    this._environment.forEach((enemy) => {
+      while (this._player.lifePoints > 0 && enemy.lifePoints > 0) {
+        this._player.attack(enemy);
+        enemy.attack(this._player);    
+      }
+    });
 
-//     return super.fight();
-//   }
-// }
+    return super.fight();
+  }
+}
 
-// export default PVE;
+export default PVE;
