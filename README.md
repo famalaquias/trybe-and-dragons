@@ -1,6 +1,6 @@
 # :dragon: Trybers and Dragons :dragon:
 
-![Dragons](https://user-images.githubusercontent.com/98343640/192073608-d0d3200e-15d7-48d6-8ba9-0f2878d67abb.jpg)
+/home/fabiane/Imagens/dg.webp
 
 
 ## :page_with_curl: Sobre
