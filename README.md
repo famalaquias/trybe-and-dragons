@@ -1,6 +1,6 @@
 # :dragon: Trybers and Dragons :dragon:
 
-![image](https://user-images.githubusercontent.com/98343640/192073766-1bc436a9-d463-41e9-a0f0-979346792e7b.png)
+![dragon](https://user-images.githubusercontent.com/98343640/194398212-6a7e7671-7364-4edd-9de2-58f07ce88f37.png)
 
 
 ## :page_with_curl: Sobre
